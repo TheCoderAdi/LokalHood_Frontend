@@ -1,0 +1,62 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  position: relative;
+}
+
+.search-container {
+  margin-bottom: 10px;
+}
+
+.search-container input {
+  width: 75%;
+  padding: 1rem 0.3rem;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-container .search-map {
+  padding: 1rem 2rem;
+  margin-left: 1rem;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-container .search-map:hover {
+  background-color: #555;
+}
+
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+}
+
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.search-map {
+  margin-top: 10px;
+}

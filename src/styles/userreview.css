@@ -1,0 +1,24 @@
+.user-review__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 10vh);
+}
+
+.user-review__header h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.user-review__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #3e3a3a8a;
+  gap: 20px;
+}

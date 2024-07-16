@@ -1,0 +1,91 @@
+.delete-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color: #fff;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.delete-icon:hover {
+  animation: ringandscale 1.5s infinite ease;
+}
+
+@keyframes ringandscale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+}
+
+.seat {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  position: relative;
+}
+
+.seat.available {
+  background-color: #4caf50;
+  color: white;
+}
+
+.seat.booked {
+  background-color: #f44336;
+  color: white;
+}
+
+.manage-seats {
+  padding-top: 20px;
+  padding-inline: 40px;
+}
+
+.seats-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 18px;
+}
+
+.no-seats__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.no-seats__container p {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #555;
+}
+
+.book-seats {
+  padding: 20px;
+}
+
+.booking-success__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: calc(100vh - 10vh);
+}
+
+.booking-success__container p {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #555;
+}

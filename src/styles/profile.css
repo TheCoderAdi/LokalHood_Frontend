@@ -1,0 +1,103 @@
+.profile-container {
+  height: calc(100vh - 10vh);
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.profile-img {
+  object-fit: cover;
+  width: 350px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+}
+
+.profile-container form {
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+}
+
+.profile-container form div {
+  margin-bottom: 5px;
+}
+
+.profile-container form div label {
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-container form div input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.profile-container form div select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.profile-container form .update-btn,
+.profile-container form .update-btn-disabled {
+  padding: 0.6rem 2rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #000;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-container form .update-btn-disabled:hover {
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.profile {
+  position: relative;
+}
+
+.edit-image-btn {
+  position: absolute;
+  bottom: -10%;
+  right: 10%;
+  background-color: #000;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.address-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.address-container input[type="text"] {
+  flex: 1;
+}
+
+.location-btn {
+  position: absolute;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.location-icon {
+  font-size: 1.6rem;
+  color: #000;
+}

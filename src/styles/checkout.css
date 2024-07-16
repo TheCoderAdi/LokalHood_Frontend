@@ -1,0 +1,21 @@
+.checkout__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 10vh);
+}
+
+.checkout__container form button {
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+  margin: 1rem auto;
+  width: 100%;
+}
+
+.checkout__container form button:hover {
+  background-color: #555;
+}
