@@ -130,7 +130,8 @@ const CheckOutForm = ({ state }) => {
         }
       );
 
-      navigate("/?payment=success");
+      navigate("/");
+      toast.success("Order placed successfully");
     }
 
     setLoading(false);

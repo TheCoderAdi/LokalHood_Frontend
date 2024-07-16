@@ -58,13 +58,7 @@ const App = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get("payment");
     const message = urlParams.get("message");
-
-    if (paymentStatus) {
-      toast.success("Order placed successfully");
-      window.history.replaceState({}, document.title, "/orders");
-    }
 
     if (message) {
       toast.error(message);
