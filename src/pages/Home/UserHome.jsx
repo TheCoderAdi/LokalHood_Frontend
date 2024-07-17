@@ -16,7 +16,12 @@ const UserHome = () => {
   const profileCompletion = profileIsComplete(user);
   const navigate = useNavigate();
 
+  const [selectOptions, setSelectOptions] = useState("All");
+
+  const options = ["All", "Chemist", "Grocery", "Restaurant"];
+
   const [selectedVendor, setSelectedVendor] = useState(null);
+  const [filteredVendors, setFilteredVendors] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -31,10 +36,23 @@ const UserHome = () => {
         withCredentials: true,
       });
       setVendors(data.vendors);
+      setFilteredVendors(data.vendors);
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);
       setLoading(false);
+    }
+  };
+
+  const handleSelect = (option) => {
+    setSelectOptions(option);
+    if (option === "All") {
+      setFilteredVendors(vendors);
+    } else {
+      const filteredVendors = vendors.filter(
+        (vendor) => vendor.role === option.toLowerCase()
+      );
+      setFilteredVendors(filteredVendors);
     }
   };
 
@@ -82,12 +100,29 @@ const UserHome = () => {
         </div>
         <div className="vendor-list">
           <h1>Near by vendors</h1>
+          {
+            <div className="button-container">
+              {options.map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSelect(option)}
+                  style={{
+                    backgroundColor:
+                      selectOptions === option ? "#f1f1f1" : "#333",
+                    color: selectOptions === option ? "black" : "white",
+                  }}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          }
           {!loading && vendors.length === 0 ? (
             <>
               <h3>No vendors found near by you</h3>
             </>
           ) : (
-            vendors?.map((vendor, index) => (
+            filteredVendors?.map((vendor, index) => (
               <motion.div
                 key={index}
                 className="vendor-item"

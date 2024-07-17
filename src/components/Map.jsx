@@ -53,7 +53,12 @@ const Map = ({ vendorArray, selectedVendor, loading }) => {
   }, [selectedVendor]);
 
   return (
-    <div className="map-wrap">
+    <div
+      className="map-wrap"
+      style={{
+        height: "70vh",
+      }}
+    >
       <div ref={mapContainer} id="map" />
     </div>
   );

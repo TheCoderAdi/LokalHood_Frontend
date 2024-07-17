@@ -11,8 +11,6 @@ export const loadUser = () => async (dispatch) => {
       credentials: "include",
     });
 
-    console.log(data);
-
     dispatch({
       type: "loadUserSuccess",
       payload: data.user,

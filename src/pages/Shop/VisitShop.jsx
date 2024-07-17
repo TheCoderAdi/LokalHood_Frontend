@@ -81,8 +81,8 @@ const VisitShop = () => {
     return (
       <div className="products-no__found">
         <p>
-          No products found in this shop. Please check back later or visit
-          another shop.
+          No products found in this shop.
+          <br /> Please check back later or visit another shop.
         </p>
         <Link to="/" className="back__link">
           Back to Home

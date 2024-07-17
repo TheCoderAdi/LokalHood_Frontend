@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container">
         <p>
           Contact Us:
-          <a>xyz@gmail.com</a>
+          <a>lokalhood@gmail.com</a>
         </p>
         <p>©2024 LokalHood. All rights reserved.</p>
       </div>

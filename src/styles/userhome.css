@@ -65,6 +65,22 @@
   overflow-y: scroll;
 }
 
+.vendor-list h1 {
+  margin-bottom: 0px;
+}
+.button-container button {
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  animation: all 1s ease;
+}
+
 .vendor-list::-webkit-scrollbar {
   display: none;
 }

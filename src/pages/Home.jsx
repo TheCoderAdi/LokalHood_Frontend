@@ -61,7 +61,7 @@ const Home = () => {
         <h1 className="banner-text">LOKAL HOOD</h1>
       </motion.section>
       <div className="home-container">
-        <motion.section
+        {/* <motion.section
           className="section"
           ref={section1Ref}
           initial="hidden"
@@ -78,7 +78,7 @@ const Home = () => {
             </p>
           </div>
           <img src={img1} alt="Medical Image" />
-        </motion.section>
+        </motion.section> */}
         <motion.section
           className="section"
           ref={section2Ref}
