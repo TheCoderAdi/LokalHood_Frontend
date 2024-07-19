@@ -91,7 +91,7 @@ const UserHome = () => {
   return (
     <div className="user-home">
       <div className="map-section">
-        <div className="map-container">
+        <div className="map-container" style={{ marginTop: "37px" }}>
           <Map
             vendorArray={vendors}
             selectedVendor={selectedVendor}

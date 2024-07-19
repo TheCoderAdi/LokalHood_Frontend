@@ -36,13 +36,11 @@ const BookedSeat = () => {
     doc.text(`Vendor Name: ${vendor.name}`, 10, 10 + 1 * 30);
     doc.text(`Vendor Email: ${vendor.email}`, 10, 20 + 1 * 30);
     doc.text(`Vendor Address: ${vendor.address}`, 10, 30 + 2 * 30);
-    vendor.tables.forEach((table, tableIndex) => {
-      doc.text(
-        `Table Number: ${table.tableNumber}`,
-        10,
-        30 + 1 * 30 + tableIndex * 10
-      );
-    });
+    doc.text(
+      `Table Number: ${vendor.tableNumber.join(",")}`,
+      10,
+      30 + 1 * 30 + 1 * 10
+    );
     doc.save("booked_seats.pdf");
   };
 
@@ -50,7 +48,13 @@ const BookedSeat = () => {
 
   if (bookedSeats.length === 0)
     return (
-      <div className="no-seats__container">
+      <div
+        className="no-seats__container"
+        style={{
+          height: "calc(100vh - 10vh)",
+          justifyContent: "center",
+        }}
+      >
         <Lottie
           animationData={animData}
           style={{ width: "300px", height: "300px" }}
@@ -87,11 +91,9 @@ const BookedSeat = () => {
             <p className="booked-seat__vendor-email">
               Vendor Email: {vendor.email}
             </p>
-            {vendor.tables.map((table) => (
-              <p key={table._id} className="booked-seat__table-number">
-                Table Number: {table.tableNumber}
-              </p>
-            ))}
+            <p className="booked-seat__table-number">
+              Table Number: {vendor.tableNumber.join(",")}
+            </p>
           </div>
           <motion.button
             className="download-pdf__button"

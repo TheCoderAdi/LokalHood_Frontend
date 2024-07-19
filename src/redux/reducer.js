@@ -14,6 +14,9 @@ export const userReducer = createReducer(
       })
       .addCase("updateProfileRequest", (state) => {
         state.loading = true;
+      })
+      .addCase("getOrderHistoryRequest", (state) => {
+        state.loading = true;
       });
     builder
       .addCase("loadUserSuccess", (state, action) => {
@@ -31,6 +34,10 @@ export const userReducer = createReducer(
         state.loading = false;
         state.user = action.payload.user;
         state.message = action.payload.message;
+      })
+      .addCase("getOrderHistorySuccess", (state, action) => {
+        state.loading = false;
+        state.orders = action.payload.orders;
       });
     builder
       .addCase("loadUserFailure", (state) => {
@@ -41,6 +48,9 @@ export const userReducer = createReducer(
         state.loading = false;
       })
       .addCase("updateProfileFailure", (state) => {
+        state.loading = false;
+      })
+      .addCase("getOrderHistoryFailure", (state) => {
         state.loading = false;
       });
 

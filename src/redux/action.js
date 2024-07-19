@@ -16,10 +16,8 @@ export const loadUser = () => async (dispatch) => {
       payload: data.user,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: "loadUserFailure",
-      payload: error.response.data.message,
     });
   }
 };
@@ -71,6 +69,27 @@ export const updateProfile = (formData, type) => async (dispatch) => {
     dispatch({
       type: "updateProfileFailure",
       payload: error.response.data.message,
+    });
+  }
+};
+
+export const getOrderHistory = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getOrderHistoryRequest",
+    });
+
+    const { data } = await axios.get(`${server}/vendor/order-history`, {
+      withCredentials: true,
+    });
+
+    dispatch({
+      type: "getOrderHistorySuccess",
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getOrderHistoryFailure",
     });
   }
 };

@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { loadUser } from "./redux/action";
+import { getOrderHistory, loadUser } from "./redux/action";
 import { toast } from "react-toastify";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -34,6 +34,7 @@ import { vendorRoles } from "./lib/data";
 import ManageSeats from "./pages/Restaurant/ManageSeats";
 import BookSeat from "./pages/Restaurant/BookSeat";
 import BookedSeat from "./pages/Restaurant/BookedSeat";
+import BookingRequests from "./pages/Restaurant/BookingRequests";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,12 @@ const App = () => {
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (vendorRoles.includes(user?.role)) {
+      dispatch(getOrderHistory());
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (error) {
@@ -66,7 +73,7 @@ const App = () => {
     }
   }, []);
 
-  if (loading || isAuthenticated === null) return <Loader />;
+  if ((user && loading) || isAuthenticated === null) return <Loader />;
 
   // eslint-disable-next-line react/prop-types
   const PrivateRoute = ({ children, role }) => {
@@ -227,6 +234,14 @@ const App = () => {
           element={
             <PrivateRoute role={["user"]}>
               <BookedSeat />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/requests"
+          element={
+            <PrivateRoute role={["restaurant"]}>
+              <BookingRequests />
             </PrivateRoute>
           }
         />

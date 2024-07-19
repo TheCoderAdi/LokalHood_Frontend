@@ -73,6 +73,8 @@
 
 .book-seats {
   padding: 20px;
+  position: relative;
+  height: calc(100vh - 10vh);
 }
 
 .booking-success__container {
@@ -88,4 +90,36 @@
   margin-top: 20px;
   font-size: 16px;
   color: #555;
+}
+
+.confirmation-container {
+  position: absolute;
+  bottom: 10%;
+  right: 5%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.436);
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.confirmation-container p {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.confirmation-container button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.confirmation-container button:hover {
+  background-color: #555;
 }

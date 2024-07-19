@@ -7,6 +7,7 @@ import img3 from "../assets/pic3.jpg";
 import img4 from "../assets/pic4.jpg";
 import banner from "../assets/banner.jpg";
 import Footer from "../components/Footer";
+import Carousel from "../components/Carousel";
 
 const Home = () => {
   const { ref: bannerRef, inView: bannerInView } = useInView({
@@ -61,7 +62,26 @@ const Home = () => {
         <h1 className="banner-text">LOKAL HOOD</h1>
       </motion.section>
       <div className="home-container">
-        {/* <motion.section
+        <div
+          style={{
+            height: "50vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <div className="text">
+            <h2>Welcome to LokalHood</h2>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe
+              dignissimos numquam veniam voluptatem voluptate est, voluptatibus
+              ipsam velit maiores. Quod, deleniti cumque! Quis!
+            </p>
+          </div>
+        </div>
+        <motion.section
           className="section"
           ref={section1Ref}
           initial="hidden"
@@ -78,7 +98,7 @@ const Home = () => {
             </p>
           </div>
           <img src={img1} alt="Medical Image" />
-        </motion.section> */}
+        </motion.section>
         <motion.section
           className="section"
           ref={section2Ref}
@@ -134,6 +154,16 @@ const Home = () => {
             </p>
           </div>
         </motion.section>
+        <section className="section">
+          <div className="text">
+            <h2>Register with us a Buisness</h2>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Veritatis ad cupiditate tempore.
+            </p>
+          </div>
+          <Carousel images={[img1, img2, img3, img4]} />
+        </section>
       </div>
       <Footer />
     </>

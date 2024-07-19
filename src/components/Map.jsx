@@ -59,7 +59,7 @@ const Map = ({ vendorArray, selectedVendor, loading }) => {
         height: "70vh",
       }}
     >
-      <div ref={mapContainer} id="map" />
+      <div ref={mapContainer} id="map" style={{ borderRadius: "10px" }} />
     </div>
   );
 };

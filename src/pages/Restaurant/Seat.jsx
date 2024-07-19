@@ -5,7 +5,7 @@ import { BiTrash } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 const Seat = ({ seat, onClick, onDelete }) => {
-  const seatStatus = seat.user ? "booked" : "available";
+  const seatStatus = seat.confirmed ? "booked" : "available";
   const { user } = useSelector((state) => state.user);
 
   return (

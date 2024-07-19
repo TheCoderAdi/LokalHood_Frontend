@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import "../../styles/seat.css";
 import Lottie from "lottie-react";
 import animationData from "../../assets/cross.json";
-import tickAnimationData from "../../assets/tick.json"; // Replace with your tick animation JSON file
+import tickAnimationData from "../../assets/tick.json";
 
 const ManageSeats = () => {
   const { user } = useSelector((state) => state.user);

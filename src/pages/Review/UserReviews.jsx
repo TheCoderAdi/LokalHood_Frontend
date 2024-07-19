@@ -11,25 +11,24 @@ const UserReviews = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
-  const [review, setReview] = useState({});
+  const [review, setReview] = useState(null);
 
   const getReview = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const { data } = await axios.get(`${server}/vendor/review/${id}`, {
         withCredentials: true,
       });
       setReview(data.returnObject);
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       toast.error(error.response.data.message);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getReview();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (loading)
@@ -52,7 +51,7 @@ const UserReviews = () => {
 
   return (
     <div className="user-review__container">
-      {!loading && review ? (
+      {review !== null ? (
         <>
           <div className="user-review__header">
             <h2>Review by {review?.name}</h2>

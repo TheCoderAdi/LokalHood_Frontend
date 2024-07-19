@@ -1,37 +1,15 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { server } from "../../redux/store";
-import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import animData from "../../assets/anim1.json";
+import { useSelector } from "react-redux";
 
 const OrderHistory = () => {
-  const [loading, setLoading] = useState(false);
-  const [orders, setOrders] = useState([]);
-
-  const getOrderHistory = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`${server}/vendor/order-history`, {
-        withCredentials: true,
-      });
-      setOrders(data.orders);
-      setLoading(false);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getOrderHistory();
-  }, []);
+  const { orders, loading } = useSelector((state) => state.user);
 
   if (loading) return <Loader />;
 
-  if (orders.length === 0)
+  if (orders && orders.length === 0)
     return (
       <div className="no-orders__container">
         <Lottie
@@ -49,7 +27,7 @@ const OrderHistory = () => {
     <div className="vendor-order__container">
       <h1>Order History</h1>
       <div className="orders__container">
-        {orders.map((order) => (
+        {orders?.map((order) => (
           <div key={order._id} className="order__card">
             {order.orderItems.length > 1 ? (
               <div className="order__multiple__images">
@@ -96,7 +74,7 @@ const OrderHistory = () => {
             >
               Payment: {order.paymentInfo.status}
             </p>
-            <p>Delivered: {order.orderStatus}</p>
+            <p>Delivered: {order.orderStatus === "Delivered" ? "Yes" : "No"}</p>
             <p>Ordered At: {new Date(order.createdAt).toLocaleString()}</p>
 
             <Link to={`/order/${order._id}`} className="order__link">
