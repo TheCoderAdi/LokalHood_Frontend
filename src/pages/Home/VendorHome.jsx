@@ -13,13 +13,12 @@ import { loadUser } from "../../redux/action";
 
 const VendorHome = () => {
   const { user, orders: userOrders } = useSelector((state) => state.user);
-
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [mostSelled, setMostSelled] = useState([]);
   const [orders, setOrders] = useState([]);
   const [seats, setSeats] = useState(0);
   const [show, setShow] = useState(false);
-  const [outOfStock, setOutOfStock] = useState(null);
+  const [outOfStock, setOutOfStock] = useState([]);
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [todaySales, setTodaySales] = useState(0);
@@ -32,17 +31,32 @@ const VendorHome = () => {
 
   const profileCompletion = profileIsCompleteVendor(user);
 
-  const getOrders = async () => {
+  const fetchData = async () => {
     try {
-      setLoading(false);
-      const { data } = await axios.get(`${server}/vendor/orders`, {
+      const ordersResponse = await axios.get(`${server}/vendor/orders`, {
         withCredentials: true,
       });
+      setOrders(ordersResponse.data.orders);
 
-      setOrders(data.orders);
+      const mostSelledResponse = await axios.get(
+        `${server}/vendor/most-selled`,
+        {
+          withCredentials: true,
+        }
+      );
+      setMostSelled(mostSelledResponse.data.productName);
+
+      const outOfStockResponse = await axios.get(
+        `${server}/vendor/out-of-stock`,
+        {
+          withCredentials: true,
+        }
+      );
+      setOutOfStock(outOfStockResponse.data.outOfStockProducts);
+
       setLoading(false);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to fetch data");
       setLoading(false);
     }
   };
@@ -56,80 +70,48 @@ const VendorHome = () => {
       const { data } = await axios.put(
         `${server}/vendor/update-seat`,
         { seats },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       toast.success(data.message);
-      setLoading(false);
       setSeats(0);
       if (show) setShow(false);
       dispatch(loadUser());
+      fetchData();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to update seats");
       setLoading(false);
     }
   };
-
-  const mostSelledProduct = async () => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(`${server}/vendor/most-selled`, {
-        withCredentials: true,
-      });
-      setMostSelled(data.productName);
-      setLoading(false);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
-  };
-
-  const outOfStockProducts = async () => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(`${server}/vendor/out-of-stock`, {
-        withCredentials: true,
-      });
-      setOutOfStock(data.outOfStockProducts);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    mostSelledProduct();
-    outOfStockProducts();
-  }, []);
 
   useEffect(() => {
     if (userOrders) {
       let customers = [];
       let amount = 0;
+      let todaySalesAmount = 0;
       userOrders.forEach((order) => {
         if (!customers.includes(order.user)) {
           customers.push(order.user);
         }
         amount += order.orderItems[0].totalAmount;
         if (new Date(order.createdAt).getDate() === today) {
-          setTodaySales((prev) => prev + order.orderItems[0].totalAmount);
+          todaySalesAmount += order.orderItems[0].totalAmount;
         }
       });
       setTotalCustomers(customers.length);
       setTotalAmount(amount);
+      setTodaySales(todaySalesAmount);
     }
   }, [userOrders, today]);
 
   useEffect(() => {
     if (orders) {
-      let todayOrders = 0;
-      orders.map((order) => {
+      let todayOrdersCount = 0;
+      orders.forEach((order) => {
         if (new Date(order.createdAt).getDate() === today) {
-          todayOrders += 1;
+          todayOrdersCount += 1;
         }
       });
-      setTodayOrders(todayOrders);
+      setTodayOrders(todayOrdersCount);
     }
   }, [orders, today]);
 
@@ -137,7 +119,7 @@ const VendorHome = () => {
     if (user?.role === "restaurant") {
       let confirmedSeats = 0;
       let requests = 0;
-      user?.tables.map((table) => {
+      user?.tables.forEach((table) => {
         if (table.confirmed) confirmedSeats += 1;
         if (new Date(table.requestedAt).getDate() === today) requests += 1;
       });
@@ -147,7 +129,9 @@ const VendorHome = () => {
   }, [user, today]);
 
   useEffect(() => {
-    if (profileCompletion === 100) getOrders();
+    if (profileCompletion === 100) {
+      fetchData();
+    }
   }, [profileCompletion]);
 
   if (profileCompletion < 100) {
@@ -190,11 +174,7 @@ const VendorHome = () => {
         <motion.img
           src={user?.profilePic.url}
           alt={user?.name}
-          style={{
-            borderRadius: "50%",
-            width: "100px",
-            height: "100px",
-          }}
+          style={{ borderRadius: "50%", width: "100px", height: "100px" }}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1 }}
@@ -218,24 +198,24 @@ const VendorHome = () => {
                 <p>{totalCustomers}</p>
               </div>
               <div className="vendor-box">
-                <h3>most slod product</h3>
-                <p>{mostSelled ? mostSelled : "No product sold yet"}</p>
+                <h3>Most Sold Product</h3>
+                <p>{mostSelled || "No product sold yet"}</p>
               </div>
               <div className="vendor-box">
-                <h3>convinence fees</h3>
+                <h3>Convenience Fees</h3>
                 <p>2%</p>
               </div>
             </div>
             <div className="vendor-actions">
               <div className="vendor-actions__box-left">
                 <h3>Today</h3>
-                <p>Recieved Orders : {todayOrders}</p>
-                <p>Revenue : ₹{todaySales}</p>
+                <p>Received Orders: {todayOrders}</p>
+                <p>Revenue: ₹{todaySales}</p>
               </div>
               <div className="vendor-actions__box-right">
                 <h3>Stock Alert</h3>
                 <div className="stocks-container">
-                  {outOfStock !== null ? (
+                  {outOfStock.length > 0 ? (
                     outOfStock.map((product) => (
                       <div className="stock" key={product.id}>
                         <p>{product.name}</p>
@@ -249,7 +229,9 @@ const VendorHome = () => {
                       </div>
                     ))
                   ) : (
-                    <p>No products are out of stock</p>
+                    <div className="stock">
+                      <p>No product is out of stock. Keep your stock updated</p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -257,21 +239,21 @@ const VendorHome = () => {
             <div className="vendor-managing">
               <div className="managing-boxes">
                 <h3>Add Product</h3>
-                <p>Total Products : {user?.products?.length}</p>
+                <p>Total Products: {user?.products?.length}</p>
                 <button onClick={() => navigate("/create-product")}>
                   Add Products
                 </button>
               </div>
               <div className="managing-boxes">
                 <h3>Manage Product</h3>
-                <p>Total Products : {user?.products?.length}</p>
+                <p>Total Products: {user?.products?.length}</p>
                 <button onClick={() => navigate("/products")}>
                   Manage Products
                 </button>
               </div>
               <div className="managing-boxes">
                 <h3>Manage Orders</h3>
-                <p>Pending Orders : {orders.length}</p>
+                <p>Pending Orders: {orders.length}</p>
                 <button onClick={() => navigate("/vendor-orders")}>
                   Manage Orders
                 </button>
@@ -297,19 +279,17 @@ const VendorHome = () => {
                     <p>{availableSeats}</p>
                   </div>
                   <div className="vendor-box">
-                    <h3>convinence fees</h3>
+                    <h3>Convenience Fees</h3>
                     <p>2%</p>
                   </div>
                 </div>
                 <div className="vendor-actions">
                   <div
                     className="vendor-actions__box-left"
-                    style={{
-                      height: "150px",
-                    }}
+                    style={{ height: "150px" }}
                   >
                     <h3>Today</h3>
-                    <p>Total Table Requests : {todayRequest}</p>
+                    <p>Total Table Requests: {todayRequest}</p>
                     {todayRequest > 0 && (
                       <button
                         onClick={() => navigate("/requests")}
@@ -338,16 +318,13 @@ const VendorHome = () => {
                   </div>
                   <div
                     className="managing-boxes"
-                    style={{
-                      alignItems: "center",
-                    }}
+                    style={{ alignItems: "center" }}
                   >
                     <p>
                       Want to manage seats? You can manage your restaurant seats
                     </p>
                     <button
                       onClick={() => navigate("/manage-seats")}
-                      to="/manage-seats"
                       className="vendor-home__button"
                     >
                       Manage Seats
@@ -388,9 +365,7 @@ const VendorHome = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                style={{
-                  marginTop: "20px",
-                }}
+                style={{ marginTop: "20px" }}
               >
                 <form onSubmit={handleOnSubmit} className="add-seats__form">
                   <label htmlFor="seats">Total Seats</label>
