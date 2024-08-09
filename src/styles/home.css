@@ -2,21 +2,28 @@
   position: relative;
 }
 
-.banner img {
+.banner video {
   width: 100%;
-  max-width: 100%;
-  height: auto;
-  opacity: 0.7;
+  height: 70vh;
+  object-fit: contain;
 }
 
-.banner-text {
+.banner-text-right,
+.banner-text-left {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(0, -50%);
   font-size: 110px;
   white-space: nowrap;
   letter-spacing: 10px;
+}
+
+.banner-text-right {
+  right: 0;
+}
+
+.banner-text-left {
+  left: 0;
 }
 
 .home-container {
@@ -133,4 +140,9 @@
   .home-container {
     margin-inline: 0;
   }
+}
+.ytp-chrome-top,
+.ytp-show-cards-title {
+  display: none !important;
+  background: red !important;
 }
